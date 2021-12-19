@@ -5,4 +5,6 @@
 
 <template>
   <router-view></router-view>
+  <AppConfirmModal />
+  <AppNotifications />
 </template>

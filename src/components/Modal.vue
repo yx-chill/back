@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot appear :show="isOpen" as="template">
-    <Dialog as="div" @close="closeModal">
+    <Dialog as="div" @close="handleCancel">
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="min-h-screen px-4 text-center">
           <TransitionChild
@@ -32,15 +32,18 @@
               class="inline-block w-full max-w-sm my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
             >
               <div class="px-6 py-4">
-                <DialogTitle as="h3" class="text-2xl text-center font-medium text-gray-900">
-                  <slot name="title"></slot> 
-                </DialogTitle>
+                <slot name="icon"></slot>
+                <slot name="title">
+                  <DialogTitle as="h3" class="text-2xl text-center font-medium text-gray-900">
+                    {{ title }}
+                  </DialogTitle>  
+                </slot> 
                 <slot name="content"></slot>
               </div>
 
               <div class="p-6">
                 <slot name="footer">
-                  <PrimaryButton class="w-full py-1.5" @click="closeModal">
+                  <PrimaryButton class="w-full py-1.5" @click="handleSuccess">
                     確定
                   </PrimaryButton>
                 </slot>
@@ -57,9 +60,9 @@
 import { useVModel } from '@vueuse/core'
 
 export default {
-  emits: ['update:model-value'],
-  props: { modelValue: Boolean },
-  setup(props) {
+  emits: ['update:modelValue', 'success', 'cancel'],
+  props: { modelValue: Boolean, title: String },
+  setup(props, { emit }) {
     const isOpen = useVModel(props)
 
     const openModal = () => {
@@ -71,7 +74,17 @@ export default {
       isOpen.value = false
     }
 
-    return { isOpen, openModal, closeModal }
+    const handleSuccess = () => {
+      emit('success')
+      closeModal()
+    }
+
+    const handleCancel = () => {
+      emit('cancel')
+      closeModal()
+    }
+
+    return { isOpen, openModal, closeModal, handleSuccess, handleCancel }
   },
 }
 </script>

@@ -69,8 +69,8 @@
       </div>
     </div>
 
-    <div class="flex-grow">
-      <slot></slot>
+    <div class="flex-grow min-w-0 bg-gray-50 p-6 sm:px-10 sm:py-8">
+        <slot></slot>
     </div>
   </div>
 </template>

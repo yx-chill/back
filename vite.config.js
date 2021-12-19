@@ -18,6 +18,9 @@ export default defineConfig({
     Vue(),
     Pages(),
     Components({
+      dirs: [
+        'src/components', 'src/sections'
+      ],
       resolvers: [
         IconsResolver({ prefix: false }),
         HeadlessUiResolver(),
