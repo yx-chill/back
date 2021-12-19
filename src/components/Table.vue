@@ -40,10 +40,12 @@
         </tbody>
       </table>
   </div>
+  <Paginator v-model:current-page="currentPage"
+    :total-page="totalPage" />
 </template>
 
 <script>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 
 export default {
   props: {
@@ -67,7 +69,10 @@ export default {
   setup (props) {
     const columnsCount = computed(() => props.columns.length + 2)
 
-    return { columnsCount }
+    const currentPage = ref(1)
+    const totalPage = ref(10)
+
+    return { columnsCount, currentPage, totalPage }
   }
 }
 </script>
