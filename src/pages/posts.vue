@@ -7,8 +7,19 @@
       </template>
     </PageHeader>
 
+    <div class="mt-6 md:flex md:justify-between md:items-center">
+      <SearchFilter
+        @filter="handleFilter"
+        @search="handleSearch" />
+
+      <SortSelect v-model="sort"
+        class="mt-4 md:mt-0 md:ml-2" />
+    </div>
+
     <Card class="mt-6" stretch>
-      <Table :columns="columns" :data="data">
+      <Table :columns="columns" :data="data"
+        confirm-delete-text="確定要刪除文章嗎?"
+        @delete-selected="handleDeleteSelectedPosts">
         <template #column-title="{ record, value }">
           <RouterLink :to="`/posts/${ record.id }`"
           class="link font-normal">
@@ -37,6 +48,7 @@
 
 <script>
 import { ref } from 'vue'
+import { successNotify } from '@/composables/useNotification'
 
 export default {
   setup () {
@@ -75,12 +87,29 @@ export default {
       },
     ])
 
-    const  handleDeletePost = (record) => {
+    const sort = ref('asc')
 
-      console.log('delete success', record);
+    const  handleDeletePost = (deleteRecord) => {
+      // 刪除單一文章
+      data.value = data.value.filter(record => record.id !== deleteRecord.id)
+      successNotify('文章刪除成功')
     }
 
-    return { columns, data, handleDeletePost }
+    const handleDeleteSelectedPosts = (ids) => {
+      // 刪除選取文章
+      data.value = data.value.filter(record => !ids.includes(record.id))
+      successNotify('文章刪除成功')
+    }
+
+    const handleFilter = (data) => {
+      console.log(data);
+    }
+
+    const handleSearch = (query) => {
+      console.log(query);
+    }
+
+    return { columns, data, sort, handleDeletePost, handleDeleteSelectedPosts, handleFilter, handleSearch }
   },
 }
 </script>
