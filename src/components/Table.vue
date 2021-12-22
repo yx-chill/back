@@ -1,24 +1,25 @@
 <template>
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto" v-bind="$attrs">
     <table class="w-full">
         <thead>
           <tr class="border-b border-gray-200">
-            <th class="pl-5 py-3 text-left">
+            <th v-if="showSelection" class="pl-5 py-3 text-left">
               <SelectAllCheckbox :state="selectAllState"
-                @update:state="updateSelectAllState" />
+                @update:state="updateSelectAllState"
+                :disabled="selectAllDisabled" />
             </th>
             <th v-for="column in columns" :key="column.key"
               class="px-5 py-3 text-left whitespace-nowrap text-sm
               font-medium tracking-wider text-gray-400">
                 {{ column.label }}
               </th>
-            <th></th>
+            <th v-if="showActions"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(record, index) in data" :key="record.id"
             :class="{ 'bg-violet-50': rowSelectStatus[index] }">
-            <td class="pl-5 py-3">
+            <td v-if="showSelection" class="pl-5 py-3">
               <SelectRowCheckbox :state="rowSelectStatus[index]"
                 :index="index" @update:state="updateRowSelectStatus" />
             </td>
@@ -33,7 +34,7 @@
               </slot>
             </td>
 
-            <td class="px-5 py-3 text-gray-600 whitespace-nowrap">
+            <td v-if="showActions" class="px-5 py-3 text-gray-600 whitespace-nowrap">
               <slot name="actions" :record="record"
                 :confirmDeleteText='confirmDeleteText'>
               </slot>
@@ -47,8 +48,8 @@
         </tbody>
       </table>
   </div>
-  <Paginator v-model:current-page="currentPage"
-    :total-page="totalPage" />
+  <Paginator v-if="showPaginator" v-model:current-page="currentPage"
+    :total-page="totalPage" class="border-t border-gray-200" />
 
   <ActionsBar :show="showActionsBar">
     <div class="text-gray-600 text-sm sm:text-base">
@@ -94,10 +95,22 @@ export default {
     confirmDeleteText: {
       type: String,
       default: '確定要刪除嗎?',
-    }
+    },
+    showSelection: {
+      type: Boolean,
+      default: true,
+    },
+    showActions: {
+      type: Boolean,
+      default: true,
+    },
+    showPaginator: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup (props, { emit }) {
-    const columnsCount = computed(() => props.columns.length + 2)
+    const columnsCount = computed(() => props.columns.length + Number(props.showSelection) + Number(props.showActions))
 
     const showActionsBar = ref(false)
 
@@ -108,6 +121,10 @@ export default {
     const selectedIds = computed(() => {
       return props.data.filter((_, index) => rowSelectStatus.value[index])
         .map(record => record.id)
+    })
+
+    const selectAllDisabled = computed(() => {
+      return props.data.length === 0
     })
 
     const updateSelectAllState = (state) => {
@@ -151,6 +168,7 @@ export default {
       selectAllState,
       rowSelectStatus,
       selectedIds,
+      selectAllDisabled,
 
       updateSelectAllState,
       updateRowSelectStatus,

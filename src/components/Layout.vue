@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col sm:flex-row min-h-screen">
     <div class="flex flex-col justify-between flex-shrink-0 w-full bg-violet-600
-      text-white sm:w-64">
+      text-white sm:w-64 sm:fixed sm:inset-y-0">
       <div class=" flex justify-between items-center h-16 px-4 sm:justify-center">
         <div class="flex justify-center items-center">
           <heroicons-outline-book-open class="w-10 h-10 mr-2" />
@@ -68,9 +68,11 @@
         </div>
       </div>
     </div>
-
-    <div class="flex-grow min-w-0 bg-gray-50 p-6 sm:px-10 sm:py-8">
+    <!-- 右側內容 -->
+    <div class="flex-grow min-w-0 bg-gray-50 sm:pl-64">
+      <div class="p-6 sm:px-10 sm:py-8">
         <slot></slot>
+      </div>
     </div>
   </div>
 </template>

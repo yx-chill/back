@@ -17,6 +17,6 @@
     @apply text-violet-600 border-gray-400 focus:ring-violet-600;
   }
   .form-checkbox {
-    @apply text-violet-600 border-gray-400 focus:ring-violet-600 rounded;
+    @apply text-violet-600 border-gray-400 focus:ring-violet-600 rounded disabled:bg-gray-100;
   }
 }

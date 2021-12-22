@@ -27,7 +27,10 @@
           </RouterLink>
         </template>
         <template #column-visits="{ value }">
-          <heroicons-outline-eye class="inline-block w-4 h-4"/>{{ value }}次
+          <div class="inline-flex items-center">
+            <heroicons-outline-eye class="inline-block w-4 h-4 mr-1"/>
+            {{ value }}次
+          </div>
         </template>
         <template #column-tags="{ value }">
           <span class="inline-flex space-x-2">
