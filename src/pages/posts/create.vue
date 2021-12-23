@@ -10,16 +10,10 @@
     <Card class="mt-6" stretch>
       <div class="p-4 grid gap-6 lg:grid-cols-12">
         <div class="space-y-6 lg:col-span-8 xl:grid-cols-9">
-          <div>
-            <label for="title" class="form-label">文章標題</label>
-            <input type="text" class="form-input" id="title" v-model="form.title">
-            <div class="form-error">請輸入標題</div>
-          </div>
-          <div>
-            <label for="content" class="form-label">文章內容</label>
-            <textarea class="form-textarea h-[200px]" id="content" v-model="form.content"></textarea>
-            <div class="form-error">請輸入標題</div>
-          </div>
+          <TextInput id="title" v-model="form.title" label="文章標題" />
+
+          <TextareaInput id="content" v-model="form.content"
+            label="文章內容" class="h-[200px]" />
           <!-- 電腦板 送出按鈕 -->
           <div class="hidden lg:flex lg:justify-end lg:items-center lg:space-x-4">
             <SecondaryButton @click="submitDraft">保存草稿</SecondaryButton>
@@ -27,26 +21,12 @@
           </div>
         </div>
 
-        <div class="space-y-6 lg:col-span-4 xl:grid-cols-3">
-          <div>
-            <label class="form-label">縮圖</label>
-            <div class="aspect-w-16 aspect-h-9">
-              <div class="flex justify-center items-center bg-gray-400 text-white rounded-md">
-                <heroicons-outline-photograph class="w-10 h-10" />
-              </div>
-            </div>
-            <PrimaryButton class="mt-3 w-full flex items-center">
-              <heroicons-outline-cloud-upload class="mr-1" />
-              上傳圖片
-            </PrimaryButton>
-            <p class="mt-2 text-gray-400 text-sm">圖片最大 5MB</p>
-            <div class="form-error">請輸入標題</div>
-          </div>
-          <div>
-            <label for="description" class="form-label">文章簡介</label>
-            <textarea class="form-textarea" id="description" v-model="form.description"></textarea>
-            <div class="form-error">請輸入標題</div>
-          </div>
+        <div class="space-y-6 lg:col-span-4 xl:col-span-3">
+          <ImageUpload label="縮圖" id="image" v-model="form.image"
+             />
+            <!-- default-image="https://picsum.photos/800/450" -->
+
+          <TextareaInput id="description" v-model="form.description" label="文章簡介" />
           <div>
             <label for="tags" class="form-label">標籤</label>
             <input type="text" class="form-input" id="tags" v-model="form.tags">
