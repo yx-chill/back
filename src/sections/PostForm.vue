@@ -3,8 +3,9 @@
     <div class="space-y-6 lg:col-span-8 xl:grid-cols-9">
       <TextInput id="title" v-model="form.title" label="文章標題" />
 
-      <TextareaInput id="content" v-model="form.content"
-        label="文章內容" class="h-[200px]" />
+      <!-- <TextareaInput id="content" v-model="form.content"
+        label="文章內容" class="h-[200px]" /> -->
+      <Editor label="文章內容" id="content" />
       <!-- 電腦板 送出按鈕 -->
       <div class="hidden lg:flex lg:justify-end lg:items-center lg:space-x-4">
         <SecondaryButton @click="submitDraft">保存草稿</SecondaryButton>
