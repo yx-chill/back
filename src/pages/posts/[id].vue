@@ -8,7 +8,7 @@
     </PageHeader>
 
     <Card class="mt-6" stretch>
-      <PostForm class="p-4" v-model="form"
+      <PostForm class="p-6 2xl:p-8" v-model="form"
         :tagsAutocompleteItems="tagsAutocompleteItems"
         @submit="submit" @submit-draft="submitDraft" />
       
@@ -33,7 +33,8 @@ export default {
 
     const form = reactive({
       title: '...',
-      content: `安安`,
+      content: `<h1>安安</h1>
+      <p>123456789</p>`,
       image: null,
       description: 'tt',
       tags: ['123'],

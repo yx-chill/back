@@ -16,6 +16,7 @@
     "@vueuse/core": "^7.3.0",
     "chart.js": "^3.6.2",
     "mitt": "^3.0.0",
+    "remixicon": "^2.5.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12"
   },
