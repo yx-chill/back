@@ -14,6 +14,7 @@
 import { watch } from 'vue';
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/extension-link'
 
 export default {
   components: {
@@ -32,7 +33,12 @@ export default {
   setup(props, { emit }) {
     const editor = useEditor({
       content: props.modelValue,
-      extensions: [StarterKit],
+      extensions: [
+        StarterKit,
+        Link.configure({
+          openOnClick: false,
+        })
+      ],
       editorProps: {
         attributes: {
           class: 'prose prose-sm sm:prose focus:outline-none !max-w-full min-h-[300px]',

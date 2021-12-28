@@ -1,7 +1,3 @@
-index.vue
-MenuBar.vue
-MenuItem.vue
-Inspect
 <template>
   <button
     class="mr-1 w-7 h-7 p-1 rounded"
@@ -9,15 +5,11 @@ Inspect
     @click="action"
     :title="title"
   >
-    <svg class="w-full h-full fill-current">
-      <use :xlink:href="`${remixiconUrl}#ri-${icon}`" />
-    </svg>
+    <RemixIcon :icon="icon" />
   </button>
 </template>
 
 <script>
-import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg';
-
 export default {
   props: {
     icon: {
@@ -37,9 +29,5 @@ export default {
       default: () => false,
     },
   },
-  setup () {
-
-    return { remixiconUrl }
-  }
-};
+}
 </script>
