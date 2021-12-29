@@ -2,31 +2,37 @@
   <div class="relative">
     <button class="mr-1 w-7 h-7 p-1 rounded"
       :class="isActive() ? 'bg-violet-600 text-white' : 'hover:bg-violet-600 hover:text-white'"
-      @click="action" :title="title">
+      @click="handleAction" :title="title">
       <RemixIcon :icon="icon"/>
     </button>
 
-    <div class="mt-1.5 absolute top-full left-[-105px] md:left-auto w-[300px] p-2 flex items-center
-      bg-white border border-gray-200 rounded shadow-md">
-      <input type="text" placeholder="連結..."
-        class="form-input text-sm px-2 py-1">
+    <div v-if="showPopover" class="mt-1.5 absolute top-full left-[-105px] md:left-auto w-[300px] p-2 flex items-center
+      bg-white border border-gray-200 rounded shadow-md"
+      @keyup.esc="showPopover = false">
+      <input type="text" placeholder="連結..." class="form-input text-sm px-2 py-1"
+        @keyup.enter="handleSubmit" v-model="url" ref="urlEl">
       <button type="button" title="插入連結"
-        class="ml-1 flex-shrink-0 w-7 h-7 p-1 hover:bg-violet-600 hover:text-white rounded">
+        class="ml-1 flex-shrink-0 w-7 h-7 p-1 hover:bg-violet-600 hover:text-white rounded"
+        @click="handleSubmit">
         <RemixIcon icon="check-line"/>
       </button>
       <button type="button" title="取消連結"
-        class="ml-1 flex-shrink-0 w-7 h-7 p-1 hover:bg-violet-600 hover:text-white rounded">
+        class="ml-1 flex-shrink-0 w-7 h-7 p-1 hover:bg-violet-600 hover:text-white rounded"
+        @click="handleUnlink">
         <RemixIcon icon="link-unlink"/>
       </button>
-      <button type="button" title="瀏覽網頁"
-        class="ml-1 flex-shrink-0 w-7 h-7 p-1 hover:bg-violet-600 hover:text-white rounded">
+      <a type="button" title="瀏覽網頁"
+        class="ml-1 flex-shrink-0 w-7 h-7 p-1 hover:bg-violet-600 hover:text-white rounded"
+        :href="url" target="_blank">
         <RemixIcon icon="external-link-line"/>
-      </button>
+      </a>
     </div>
   </div>
 </template>
 
 <script>
+import { inject, onBeforeUnmount, ref, watch } from 'vue';
+
 export default {
   props: {
     icon: {
@@ -45,6 +51,56 @@ export default {
       type: Function,
       default: () => false,
     },
+  },
+  setup (props) {
+    const editor = inject('editor')
+    const editorEvent = inject('editorEvent')
+
+    const showPopover = ref(false)
+    const url = ref('')
+    const urlEl = ref(null)
+
+    editorEvent.on('link-selected', attrs => {
+      url.value = attrs.href
+    })
+
+    onBeforeUnmount(() => {
+      editorEvent.off('link-selected')
+    })
+
+    watch(() => props.isActive(), isActive => {
+      if (!isActive) {
+        showPopover.value = false
+      }
+    })
+
+    const handleAction = () => {
+      showPopover.value = !showPopover.value
+
+      if (!showPopover.value) return 
+
+      if (props.isActive()) {
+        url.value = editor.value.getAttributes('link').href || ''
+      } else {
+        url.value = ''
+        props.action(url.value)
+      }
+      setTimeout(() => {
+        urlEl.value.focus()
+      })
+    }
+
+    const handleSubmit = () => {
+      props.action(url.value)
+      showPopover.value = false
+    }
+
+    const handleUnlink = () => {
+      props.action(null)
+      showPopover.value = false
+    }
+
+    return { urlEl, url, showPopover, handleAction, handleSubmit, handleUnlink }
   },
 }
 </script>
