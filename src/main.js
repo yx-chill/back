@@ -16,3 +16,5 @@ createApp(App)
   .use(router)
   .use(Notifications)
   .mount('#app')
+
+  // let lastText = '';function check() {let toEl = $('.well--container--2edq4 span');let fromEl = document.querySelectorAll('p[data-purpose="transcript-cue-active" ] span')[1];let currentText = fromEl.innerHTML;if (lastText !== currentText) {toEl.html(currentText);}lastText = fromEl.innerHTML;}window.i = setInterval(check, 200);
