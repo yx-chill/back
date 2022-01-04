@@ -8,9 +8,10 @@
     </PageHeader>
 
     <Card class="mt-6" stretch>
-      <PostForm class="p-6 2xl:p-8" v-model="form"
-        :tagsAutocompleteItems="tagsAutocompleteItems"
-        @submit="submit" @submit-draft="submitDraft" />
+      <CardContent>
+        <PostForm v-model="form" :tagsAutocompleteItems="tagsAutocompleteItems"
+          @submit="submit" @submit-draft="submitDraft" />
+      </CardContent>
       
       <Loading  :show="loading" text="保存中..." />
     </Card>
@@ -20,7 +21,7 @@
 <script>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { promiseTimeout } from '@vueuse/shared'
+import { promiseTimeout } from '@vueuse/core'
 import { successNotify } from '@/composables/useNotification'
 
 export default {

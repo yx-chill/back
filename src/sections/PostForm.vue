@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-6 lg:grid-cols-12">
     <div class="space-y-6 lg:col-span-8 xl:col-span-9">
-      <TextInput id="title" v-model="form.title" label="文章標題" />
+      <TextInput label="文章標題" id="title" v-model="form.title" />
       
       <Editor label="文章內容" id="content" v-model="form.content" />
       <!-- 電腦板 送出按鈕 -->
@@ -13,7 +13,7 @@
 
     <div class="space-y-6 lg:col-span-4 xl:col-span-3">
       <ImageUpload label="縮圖" id="image" v-model="form.image"
-          />
+        image-class="aspect-w-16 aspect-h-9 rounded-md"/>
         <!-- default-image="https://picsum.photos/800/450" -->
 
       <TextareaInput label="文章簡介" id="description" v-model="form.description" />
